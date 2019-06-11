@@ -7,7 +7,6 @@
 (claim four Nat)
 (define four (add1 (add1 two)))
 
-;(+ zero zero)
 
 two
 42
