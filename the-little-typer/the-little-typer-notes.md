@@ -38,3 +38,12 @@
 	
 - The Commandment of Neutral Expressions
 	- Neutral expressions that are written identically are the same, _no matter their type_.
+
+- The Second Commandment of cons
+	- If p is a (Pair A D), then it is the same (Pair A D) as (cons (car p) (cdr p)).
+	
+
+	
+- rec-Nat/primitive recursion
+	- 
+	
