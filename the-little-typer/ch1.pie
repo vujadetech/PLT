@@ -1,0 +1,114 @@
+(claim +
+  (->  Nat Nat
+     Nat))
+(define +
+  (λ (j k)
+    (iter-Nat j k (λ (sum-so-far) (add1 sum-so-far)))))
+
+(claim Pear U)
+(define Pear (Pair Nat Nat))
+;(the Pear (Pair 0 0))
+;(the Pear (cons 3 4))
+
+(claim sub1 (-> Nat Nat))
+(define sub1
+  (λ (n)
+     (which-Nat n 0 (λ (n) n))))
+
+(claim - (->  Nat Nat Nat))
+(define -
+  (λ (j k)
+    (iter-Nat k j
+	(λ (diff) (sub1 diff)))))
+
+(claim *
+  (->  Nat Nat
+     Nat))
+(define *
+  (λ (j k)
+    (iter-Nat j
+ 	0
+	(λ (prod) (+ k prod)))))
+;(* 3 3)
+
+;(iter-Nat 5 0 (λ (n) n))
+(claim ^
+  (->  Nat Nat
+     Nat))
+(define ^
+  (λ (j k)
+    (iter-Nat k
+ 	1
+	(λ (prod) (* j prod)))))
+
+
+(claim / (->  Nat Nat Nat))
+(define /
+  (λ (j k)
+    (iter-Nat k 1 (λ (quot)  quot))))
+
+;(/ 10 3)
+
+(claim gauss (-> Nat Nat))
+(define gauss
+  (λ (n)
+     (which-Nat n 0
+        (λ (sum) (* n n)))))
+
+ ;(gauss 0)
+
+(claim double (-> Nat Nat))
+(define double
+   (λ (j)
+      (rec-Nat j
+	0
+          (λ (n-1 sum) (+ 2 sum)))))
+
+(claim double2 (-> Nat Nat))
+(define double2
+   (λ (j)
+      (iter-Nat j
+	0
+          (λ (sum) (+ 2 sum)))))
+
+;(double2 3)
+
+;(double 42)
+
+#;(claim orange-exists
+  (Σ ((fruit Atom))
+    (= Atom fruit 'orange)))
+
+(claim Even (-> Nat U))
+(define Even
+  (λ (n)
+    (Σ ((half Nat)) (= Nat n (double half)))))
+
+(claim zero-is-even (Even 0))
+(define zero-is-even (cons 0 (same 0)))
+
+; double 5
+;(which-Nat 5 0 (λ (n-1) (+ 2 (+ n-1 n-1))))
+
+;(which-Nat 5 0 (λ (n-1) (* 2 (+ n-1 n-1))))
+
+(iter-Nat 3 2  (λ (sum-so-far) (add1 sum-so-far)))
+(iter-Nat 3 2  (λ (sum-so-far) (+ sum-so-far sum-so-far)))
+;(which-Nat 3 2  (λ (sum-so-far) (add1 sum-so-far)))
+;(^ 2 3)
+
+#;(rec-Nat (add1 zero)
+	0
+	(λ (n almost)  (add1  (add1 almost))))
+
+(rec-Nat 1
+	0
+	(λ (n-1 almost)  (add1  (add1 almost))))
+
+; factorial
+(rec-Nat 5
+	1
+	(λ (n-1 almost)  (* (add1 n-1) almost)))
+
+; gauss
+(rec-Nat 5
