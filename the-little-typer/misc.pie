@@ -1,5 +1,3 @@
-
-
 (claim +
   (->  Nat Nat
      Nat))
@@ -202,5 +200,3 @@
   (λ (p)
     (elim-Pair Nat Nat Nat p
       (λ (a d) a))))
-
-
