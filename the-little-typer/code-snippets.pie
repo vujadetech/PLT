@@ -1,0 +1,12 @@
+(claim gauss2 (-> Nat Nat))
+(define gauss2
+  (λ (n)
+    (rec-Nat n 0
+      (λ (n-1 acc)
+    	  (+ (add1 n-1) acc)))))
+
+(claim fac (-> Nat Nat))
+;(define fac (λ (n) (rec-Nat n 1 (λ (n-1 acc) (* (add1 n-1) acc)))
+(define fac
+  (λ (n) (rec-Nat n 0
+      (λ (n-1 acc) (+ (add1 n-1) acc)))))
