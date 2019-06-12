@@ -166,21 +166,42 @@
 (define adf (λ (n m) (+ (- n m) (- m n))))
 (claim x-eq (-> Nat Nat Nat))
 (define x-eq (λ (n m) (sgn-bar (adf n m))))
+(claim x-neq (-> Nat Nat Nat))
+(define x-neq (λ (n m) (sgn (adf n m))))
+(claim ++ (-> Nat Nat))
+(define ++ (lambda (n) (add1 n)))
+(claim -- (-> Nat Nat))
+(define -- (lambda (n) (sub1 n)))
+
 ;(x-eq 2 3)
 
-
+; Proof wiki rem(n+1, m), so acc = rem(n,m) there, or rem(n-2, m) here since passing in n-1.
 (claim step-mod (-> Nat Nat Nat Nat))
-(define step-mod (λ (m n-1 acc) (* (sgn-bar (x-eq acc (sub1 m))) (* (sgn m) (add1 acc)))) )
+(define step-mod
+  (λ (m n-1 acc) (* (x-neq acc (sub1 m)) (++ acc))) ) ; (* (sgn-bar (x-eq acc (-- m))) (* (sgn m) (add1 acc)))) )
 ;(step-mod 7 2 0)
 
 (claim mod (-> Nat Nat Nat))
 (define mod
   (λ (n m)
     (rec-Nat n 0 (step-mod m))))
-(mod 10 3)
-(mod 11 4)
-(mod 42 2)
+;(mod 10 3)
+;(mod 11 4)
+;(mod 42 2)
 
+(claim step-quot (-> Nat Nat Nat Nat))
+(define step-quot
+  (λ (m n-1 acc) (+ (sgn-bar (mod (add1 n-1) m)) acc)))
+
+(claim quot (-> Nat Nat Nat))
+(define quot
+  (lambda (n m)
+    (rec-Nat n 0 (step-quot m))))
+(quot 11 2)
+(quot 12 4)
+(quot 1 2)
+(quot 3 3) 
+(quot 4 4)
 
 ;(claim / (->  Nat Nat Nat))
 #;(define /
