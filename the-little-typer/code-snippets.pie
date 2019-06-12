@@ -18,9 +18,14 @@
   (λ (n) (rec-Nat n 0
       (λ (n-1 acc) (+ (add1 n-1) acc)))))
 
-
+; * rec-Nat version
 (claim *-rn (->  Nat Nat Nat))
 (define *-rn
   (λ (j k)
     (rec-Nat j 0
       (λ (j-1 acc) (+ k acc)))))
+
+
+(claim *__ (-> Nat Nat Nat))
+(define *__ (λ (x y)
+  (rec-Nat x 0 (λ (n-1 *acc) (+ y *acc)))))

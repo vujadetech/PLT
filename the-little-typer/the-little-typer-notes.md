@@ -42,8 +42,13 @@
 - The Second Commandment of cons
 	- If p is a (Pair A D), then it is the same (Pair A D) as (cons (car p) (cdr p)).
 	
-
 	
 - rec-Nat/primitive recursion
-	- 
+	- Second Commandment of rec-Nat
+		- If (rec-Nat (add1 n) base step) __is an X, then it is the same X as__ (step n (rec-Nat n base step)).
+		
+	- example, (step-* j) returns a function of two arguments
+	(define * (lambda (n j) (rec-Nat n 0 __(step-\* j)__)))
+	
+	
 	
