@@ -1,3 +1,10 @@
+(claim +
+  (->  Nat Nat
+     Nat))
+(define +
+  (λ (j k)
+    (iter-Nat j k (λ (sum-so-far) (add1 sum-so-far)))))
+
 (claim gauss2 (-> Nat Nat))
 (define gauss2
   (λ (n)
@@ -10,3 +17,10 @@
 (define fac
   (λ (n) (rec-Nat n 0
       (λ (n-1 acc) (+ (add1 n-1) acc)))))
+
+
+(claim *-rn (->  Nat Nat Nat))
+(define *-rn
+  (λ (j k)
+    (rec-Nat j 0
+      (λ (j-1 acc) (+ k acc)))))
