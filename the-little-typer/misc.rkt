@@ -139,13 +139,6 @@
 ; factorial
 ;(rec-Nat 5 1  (λ (n-1 almost)  (* (add1 n-1) almost)))
 
-(claim / (->  Nat Nat Nat Nat Nat))
-(define /
-  (λ (j k acc init)
-    (rec-Nat acc j
-      (λ (j-1 acc) (+ k acc)))))
-;(/ 6 1 0 6)
-
 (claim step-* (-> Nat Nat Nat Nat))
 (define step-* (λ (j n-1 *acc) (+ j *acc)))
 (claim *_ (-> Nat Nat Nat))
@@ -158,6 +151,7 @@
   (rec-Nat x 0 (λ (n-1 *acc) (+ y *acc)))))
 ;(*__ 2 3)
 
+; Primitive recursive building blocks; for boolean functions the return type is Nat with 1=true, 0=false.
 (claim sgn (-> Nat Nat))
 (define sgn (λ (n) (which-Nat n 0 (λ (_) 1))))
 (claim sgn-bar (-> Nat Nat))
@@ -172,6 +166,10 @@
 (define x-gt (λ (n m) (sgn (- n m))))
 (claim x-geq (-> Nat Nat Nat)) ; ge = greater or equal
 (define x-geq (λ (n m) (+ (sgn (- n m)) (x-eq n m))))
+(claim not (-> Nat Nat))
+(define not (lambda (x) (sgn-bar x)))
+;(not 3)
+;(not 0)
 ;(x-geq 5 4)
 ;(x-geq 4 4)
 ;(x-geq 3 4)
@@ -181,14 +179,13 @@
 
 (claim max (-> Nat Nat Nat))
 (define max (λ (n m) (+ (* n (x-geq n m)) (* m (x-gt m n)))))
-(max 2 2)
-(max 3 10)
-(max 4 0)
+;(max 2 2)
+;(max 3 10)
+;(max 4 0)
 ;(claim x-gt (-> Nat Nat Nat))
 ;(define x-gt (λ (n m) (sgn (- n m))))
 
-
-
+; Gotta have some C++/Java, whatever you wanna call it. Hopefully Steve Ballmer and Alan Turing would approve.
 (claim ++ (-> Nat Nat))
 (define ++ (lambda (n) (add1 n)))
 (claim -- (-> Nat Nat))
@@ -198,13 +195,10 @@
 ;(x-gt 3 3)
 ;(x-gt 4 3)
 
-
-
 ; Proof wiki rem(n+1, m), so acc = rem(n,m) there, or rem(n-2, m) here since passing in n-1.
 (claim step-mod (-> Nat Nat Nat Nat))
 (define step-mod
   (λ (m n-1 acc) (* (x-neq acc (sub1 m)) (++ acc))) ) ; (* (sgn-bar (x-eq acc (-- m))) (* (sgn m) (add1 acc)))) )
-;(step-mod 7 2 0)
 
 (claim mod (-> Nat Nat Nat))
 (define mod
@@ -214,33 +208,26 @@
 ;(mod 11 4)
 ;(mod 42 2)
 
-(claim step-quot (-> Nat Nat Nat Nat))
-(define step-quot
+(claim dividesQ (-> Nat Nat Nat))
+(define dividesQ
+  (lambda (k n)
+    (mod n k)))
+(dividesQ 2 4)
+
+(claim step-/ (-> Nat Nat Nat Nat))
+(define step-/
   (λ (m n-1 acc) (+ (sgn-bar (mod (add1 n-1) m)) (* (sgn m) acc))))
 
-(claim quot (-> Nat Nat Nat))
-(define quot
+(claim / (-> Nat Nat Nat))
+(define /
   (lambda (n m)
-    (rec-Nat n 0 (step-quot m))))
-;(quot 11 2)
-;(quot 12 4)
-;(quot 1 2)
-;(quot 3 3)
-;(quot 4 4)
-;(quot 2 0)
-
-;(claim / (->  Nat Nat Nat))
-#;(define /
-  (λ (j k)
-    (iter-Nat k 1 (λ (quot)  quot))))
-
-;(rec-Nat 7 2  (λ (n-1 almost)  ((step-mod 2) n-1 2)))
-
-(claim modAcc (-> Nat Nat Nat Nat))
-(define modAcc
-  (λ (n k acc)
-    (rec-Nat n 0 (λ (n-1 almost) ((step-mod k) acc almost)))))
-;(modAcc 7 2 7)
+    (rec-Nat n 0 (step-/ m))))
+;(/ 11 2)
+;(/ 12 4)
+;(/ 1 2)
+;(/ 3 3)
+;(/ 4 4)
+;(/ 2 0)
 
 (claim elim-Pair
   (Π ((A U) (D U) (X U))
