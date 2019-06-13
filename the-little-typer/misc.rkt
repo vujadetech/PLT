@@ -1,6 +1,6 @@
 #lang pie
 
-42
+; 42
 (claim +
   (->  Nat Nat
      Nat))
@@ -210,14 +210,13 @@
 
 (claim dividesQ (-> Nat Nat Nat))
 (define dividesQ
-  (lambda (k n)
-    (mod n k)))
-(dividesQ 2 4)
+  (lambda (k n) (not (mod n k))))
+;(dividesQ 2 4)
+;(dividesQ 3 7)
 
 (claim step-/ (-> Nat Nat Nat Nat))
 (define step-/
   (λ (m n-1 acc) (+ (sgn-bar (mod (add1 n-1) m)) (* (sgn m) acc))))
-
 (claim / (-> Nat Nat Nat))
 (define /
   (lambda (n m)
@@ -229,20 +228,54 @@
 ;(/ 4 4)
 ;(/ 2 0)
 
+(claim step-zerop (-> Nat Atom Atom))
+(define step-zerop
+  (lambda (n-1 acc) 'nil))
+
+(claim zerop (-> Nat Atom))
+(define zerop
+ (lambda (n)
+   (rec-Nat n 't step-zerop)))
+;(zerop 0)
+;(zerop 42)
+
+; elim-Pair takes types A, D and X (cAr, cDr for the first 2 presumably),
+; a function that takes a pair and a function that takes an A and D to an X
+; and returns an X.
 (claim elim-Pair
   (Π ((A U) (D U) (X U))
-      (-> (Pair A D)
-        (-> A D
-            X)
-            X)))
-
+      (-> (Pair A D) (-> A D X) X)))
 (define elim-Pair
-(λ (A D X)
-  (λ (p f)
-    (f (car p) (cdr p)))))
+  (λ (A D X)
+    (λ (p f)
+      (f (car p) (cdr p)))))
 
 (claim kar (-> (Pair Nat Nat) Nat))
 (define kar
   (λ (p)
     (elim-Pair Nat Nat Nat p
       (λ (a d) a))))
+(claim kdr (-> (Pair Nat Nat) Nat))
+(define kdr
+  (λ (p)
+    (elim-Pair Nat Nat Nat p
+      (λ (a d) d))))
+;(kar (cons 99 42))
+;(kdr (cons 99 42))
+
+(claim swap (-> (Pair Nat Atom) (Pair Atom Nat)))
+(define swap
+  (lambda (p)
+    (elim-Pair Nat Atom (Pair Atom Nat)
+      p (lambda (a d) (cons d a)))))
+(swap (cons 1 'a))
+
+(claim flip
+  (Π ((A U) (D U))
+    (-> (Pair A D) (Pair D A))))
+(define flip
+  (lambda (A D)
+    (lambda (p)
+      (cons (cdr p) (car p)))))
+
+(flip Nat Atom)
