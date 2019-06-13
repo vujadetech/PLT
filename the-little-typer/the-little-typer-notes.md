@@ -49,6 +49,16 @@
 		
 	- example, (step-* j) returns a function of two arguments
 	(define * (lambda (n j) (rec-Nat n 0 __(step-\* j)__)))
+
+- Recursion, "replace the gray box" (p
+- The commandment of the: Use "the" to test type
+	- (the (Pair Atom Atom) (cons 'spinach 'kale))
 	
+- The second Commandment of rec-Nat
+	- if __(rec-Nat (add1 n) base step)__ is an X, then it is the same X as __(step n (rec-Nat n base step)__.
 	
-	
+- which-Nat vs iterNat vs rec-Nat (p 70)
+	- which-Nat applies its step
+
+
+- general note (from wiki/intuitionistic_type_theory) on Type theory for set theorists: Types contain terms just as sets contain elements. Terms belong to only one type. Terms like 2 + 2 compute/reduce to canonical terms like 4.
