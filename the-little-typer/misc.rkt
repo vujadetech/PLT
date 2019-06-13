@@ -268,8 +268,9 @@
   (lambda (p)
     (elim-Pair Nat Atom (Pair Atom Nat)
       p (lambda (a d) (cons d a)))))
-(swap (cons 1 'a))
+;(swap (cons 1 'a))
 
+; So flip is a generic swap? Seems to be what they're driving at but haven't said it that way.
 (claim flip
   (Π ((A U) (D U))
     (-> (Pair A D) (Pair D A))))
@@ -278,4 +279,40 @@
     (lambda (p)
       (cons (cdr p) (car p)))))
 
-(flip Nat Atom)
+;((flip Nat Atom) (cons 2 'b))
+
+(claim twin (Π ((Y U)) (-> Y (Pair Y Y))))
+(define twin
+  (λ (Y)
+    (λ (x) (cons x x))))
+;((twin Atom) 'duran)
+
+(claim expectations (List Atom))
+(define expectations (:: 'cook (:: 'eat (:: 'sleep nil))))
+;expectations
+
+(claim step-length (Π ((E U)) (-> E (List E) Nat Nat)))
+(define step-length
+  (λ (E)
+    (λ (e es len_es) (add1 len_es))))
+
+;(step-length Atom 'wake-up expectations 3)
+
+(claim length
+  (Π ((E U))
+    (-> (List E) Nat)))
+(define length
+  (λ (E)
+    (λ (es)
+      (rec-List es
+                0
+                (step-length E)))))
+
+((length Atom) expectations)
+;expectations
+;nil
+;(the (List Atom) expectations)
+
+;ΠΠΠΠΠΠ
+;ΣΣΣΣΣΣ
+;λλλλλλλ
