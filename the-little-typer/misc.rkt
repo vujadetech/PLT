@@ -313,6 +313,28 @@
 ;nil
 ;(the (List Atom) expectations)
 
+(claim step-append
+  (Π ((E U))
+    (-> E (List E) (List E) (List E))))
+(define step-append
+  (λ (E)
+    (λ (e es append_es)
+      (:: e append_es))))
+((step-append Atom) 'e nil expectations)
+
+(claim append
+  (Π ((E U))
+    (-> (List E) (List E) (List E))))
+(define append
+  (λ (E)
+    (λ (start end)
+      (rec-List start
+                end
+                (step-append E)))))
+((append Atom) nil nil)
+((append Atom) (the (List Atom) (:: 'a nil)) (the (List Atom) (:: 'a nil)) )
+;(append Atom)
+
 ;ΠΠΠΠΠΠ
 ;ΣΣΣΣΣΣ
 ;λλλλλλλ

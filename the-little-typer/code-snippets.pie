@@ -25,7 +25,14 @@
     (rec-Nat j 0
       (λ (j-1 acc) (+ k acc)))))
 
-
 (claim *__ (-> Nat Nat Nat))
 (define *__ (λ (x y)
   (rec-Nat x 0 (λ (n-1 *acc) (+ y *acc)))))
+
+
+; * with step-*
+(claim step-* (-> Nat Nat Nat Nat))
+(define step-* (λ (j n-1 *acc) (+ j *acc)))
+(claim *_ (-> Nat Nat Nat))
+(define *_ (λ (x y)
+  (rec-Nat (- x y) 0 (step-* y))))

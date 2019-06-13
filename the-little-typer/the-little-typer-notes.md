@@ -60,5 +60,6 @@
 - which-Nat vs iterNat vs rec-Nat (p 70)
 	- which-Nat applies its step
 
+- general note (from wiki/intuitionistic\_type\_theory) on Type theory for set theorists: Types contain terms just as sets contain elements. Terms belong to only one type. Terms like 2 + 2 compute/reduce to canonical terms like 4.
 
-- general note (from wiki/intuitionistic_type_theory) on Type theory for set theorists: Types contain terms just as sets contain elements. Terms belong to only one type. Terms like 2 + 2 compute/reduce to canonical terms like 4.
+

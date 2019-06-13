@@ -1,3 +1,6 @@
+
+
+
 (claim +
   (->  Nat Nat
      Nat))
@@ -111,4 +114,4 @@
 	(λ (n-1 almost)  (* (add1 n-1) almost)))
 
 ; gauss
-(rec-Nat 5
+; (rec-Nat 5
