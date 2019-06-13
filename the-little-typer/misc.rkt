@@ -168,12 +168,37 @@
 (define x-eq (λ (n m) (sgn-bar (adf n m))))
 (claim x-neq (-> Nat Nat Nat))
 (define x-neq (λ (n m) (sgn (adf n m))))
+(claim x-gt (-> Nat Nat Nat))
+(define x-gt (λ (n m) (sgn (- n m))))
+(claim x-geq (-> Nat Nat Nat)) ; ge = greater or equal
+(define x-geq (λ (n m) (+ (sgn (- n m)) (x-eq n m))))
+;(x-geq 5 4)
+;(x-geq 4 4)
+;(x-geq 3 4)
+
+(claim min (-> Nat Nat Nat))
+(define min (λ (n m) (+ (* m (x-geq n m)) (* n (x-gt m n)))))
+
+(claim max (-> Nat Nat Nat))
+(define max (λ (n m) (+ (* n (x-geq n m)) (* m (x-gt m n)))))
+(max 2 2)
+(max 3 10)
+(max 4 0)
+;(claim x-gt (-> Nat Nat Nat))
+;(define x-gt (λ (n m) (sgn (- n m))))
+
+
+
 (claim ++ (-> Nat Nat))
 (define ++ (lambda (n) (add1 n)))
 (claim -- (-> Nat Nat))
 (define -- (lambda (n) (sub1 n)))
 
-;(x-eq 2 3)
+;(x-gt 2 3)
+;(x-gt 3 3)
+;(x-gt 4 3)
+
+
 
 ; Proof wiki rem(n+1, m), so acc = rem(n,m) there, or rem(n-2, m) here since passing in n-1.
 (claim step-mod (-> Nat Nat Nat Nat))
@@ -191,17 +216,18 @@
 
 (claim step-quot (-> Nat Nat Nat Nat))
 (define step-quot
-  (λ (m n-1 acc) (+ (sgn-bar (mod (add1 n-1) m)) acc)))
+  (λ (m n-1 acc) (+ (sgn-bar (mod (add1 n-1) m)) (* (sgn m) acc))))
 
 (claim quot (-> Nat Nat Nat))
 (define quot
   (lambda (n m)
     (rec-Nat n 0 (step-quot m))))
-(quot 11 2)
-(quot 12 4)
-(quot 1 2)
-(quot 3 3) 
-(quot 4 4)
+;(quot 11 2)
+;(quot 12 4)
+;(quot 1 2)
+;(quot 3 3)
+;(quot 4 4)
+;(quot 2 0)
 
 ;(claim / (->  Nat Nat Nat))
 #;(define /
