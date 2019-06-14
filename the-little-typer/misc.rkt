@@ -366,8 +366,8 @@
     (rec-List start
               (:: e nil)
               (step-append Nat))))
-(snoc-Nat (:: 99 (:: 42 nil)) 0)
-(snoc Atom expectations 'marryMotherInLaw)
+;(snoc-Nat (:: 99 (:: 42 nil)) 0)
+;(snoc Atom expectations 'marryMotherInLaw)
 
 ; snoc* uses append instead of rec-List
 (claim snoc*
@@ -378,7 +378,64 @@
   (lambda (E)
     (lambda (start e)
       (append E start (:: e nil)))))
-(snoc* Nat (:: 1 nil) 42)
+;(snoc* Nat (:: 1 nil) 42)
+
+(claim step-reverse
+  (Π ((E U))
+    (-> E (List E) (List E) (List E))))
+(define step-reverse
+  (λ (E)
+    (λ (e es acc)
+      (snoc E acc e))))
+
+(claim reverse
+  (Π ((E U))
+    (-> (List E) (List E))))
+(define reverse
+  (λ (E)
+    (λ (es)
+      (rec-List es
+                (the (List E) nil)
+                (step-reverse E)))))
+;(reverse Atom expectations)
+
+(claim step-concat
+  (Π ((E U))
+    (-> E (List E) (List E) (List E))))
+(define step-concat
+  (λ (E)
+    (λ (e es concat_es)
+      (:: e concat_es))))
+
+(claim concat
+  (Pi ((E U))
+    (-> (List E) (List E)
+      (List E))))
+(define concat
+  (λ (E)
+    (λ (start end)
+      (rec-List start
+                (reverse E end)
+                (step-concat E)))))
+
+(claim step-concat*
+  (Π ((E U))
+    (-> E (List E) (List E) (List E))))
+(define step-concat*
+  (λ (E)
+    (λ (e es concat_es)
+      (snoc E concat_es e))))
+
+(claim concat*
+  (Pi ((E U))
+    (-> (List E) (List E)
+      (List E))))
+(define concat*
+  (λ (E)
+    (λ (start end)
+      (rec-List (reverse E end)
+                start
+                (step-concat* E)))))
 
 ;(the (List Atom) (:: 'a nil))
 (claim x Nat)
@@ -392,6 +449,8 @@
 ;(append Atom ab cd)
 ;(append* Atom ab cd)
 ;(append Atom ab (:: 'c nil))
+;(concat Atom ab cd)
+(concat* Atom ab cd)
 
 ;(claim Pear U)
 ;(define Pear (Pair Nat Nat))
