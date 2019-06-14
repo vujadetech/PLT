@@ -415,7 +415,7 @@
   (λ (E)
     (λ (start end)
       (rec-List start
-                (reverse E end)
+                end
                 (step-concat E)))))
 
 (claim step-concat*
@@ -449,7 +449,7 @@
 ;(append Atom ab cd)
 ;(append* Atom ab cd)
 ;(append Atom ab (:: 'c nil))
-;(concat Atom ab cd)
+(concat Atom ab cd)
 (concat* Atom ab cd)
 
 ;(claim Pear U)
