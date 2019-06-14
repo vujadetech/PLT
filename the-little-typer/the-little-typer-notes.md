@@ -62,4 +62,17 @@
 
 - general note (from wiki/intuitionistic\_type\_theory) on Type theory for set theorists: Types contain terms just as sets contain elements. Terms belong to only one type. Terms like 2 + 2 compute/reduce to canonical terms like 4.
 
+- The Second Commandment of rec-List
+	- If __(rec-List (:: e es) base step)__ is an X, then it is the same X as __(step e es (rec-List es base step))__.
 
+- The Law of __Vec__
+	- If E is a type and k is a Nat, then (Vec E k) is a type.
+
+- The law of __vecnil__
+	- vecnil is a (Vec E zero)
+	
+- The law of __vec::__
+	- If e is an E and es is a (Vec E k), then __(vec:: e es)__ is a __(Vec E (add1 k))__.
+	
+- The law of __Π__
+> The expression __(Π ((y Y)) X)__ is a type when Y is a type, and X is a type if y is a Y.

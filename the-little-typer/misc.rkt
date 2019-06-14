@@ -446,19 +446,58 @@
 (define ab (:: 'a (:: 'b nil)))
 (claim cd (List Atom))
 (define cd (:: 'c (:: 'd nil)))
+(claim efg (List Atom))
+(define efg (:: 'e (:: 'f (:: 'g  nil))))
 ;(append Atom ab cd)
 ;(append* Atom ab cd)
 ;(append Atom ab (:: 'c nil))
-(concat Atom ab cd)
-(concat* Atom ab cd)
+;(concat Atom ab cd)
+;(concat* Atom ab cd)
+;(concat Atom ab efg)
+;(concat* Atom ab efg)
+;(concat Atom efg ab)
+;(concat* Atom efg ab)
+
 
 ;(claim Pear U)
 ;(define Pear (Pair Nat Nat))
 ;(the Pear (Pair 0 0))
 ;(the Pear (cons 3 4))
 
-;(append Atom)
+; VECTORS
+(claim vec-42 (Vec Nat 1))
+(define vec-42 (vec:: 42 vecnil))
+;vec-42
+(claim vec-7-42 (Vec Nat 2))
+(define vec-7-42 (vec:: 7 vec-42))
+;vec-7-42
+;(head vec-7-42)
 
+; Vector of sublists of Nat
+;(the (Vec (List Nat) 1) (vec:: (:: 42 nil) vecnil))
+
+;(head (the (Vec Nat 2) (vec:: 7 (vec:: 42 vecnil))))
+;(tail (the (Vec Nat 2) (vec:: 7 (vec:: 42 vecnil))))
+
+
+(claim first-of-one
+  (Π ((E U))
+    (-> (Vec E 1) E)))
+(define first-of-one
+  (λ (E)
+    (λ (v) (head v))))
+;(first-of-one Nat vec-42)
+;(first-of-one Nat vec-7-42) ; compiler complains about length, which is good
+;(first-of-one Nat vecnil) ; ditto
+
+(claim first-of-two
+  (Π ((E U))
+    (-> (Vec E 2) E)))
+(define first-of-two
+  (λ (E)
+    (λ (v) (head v))))
+(first-of-two Nat vec-7-42)
+;(first-of-two Nat vec-42)
 
 ;ΠΠΠΠΠΠ
 ;ΣΣΣΣΣΣ
