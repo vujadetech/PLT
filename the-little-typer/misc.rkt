@@ -308,7 +308,7 @@
                 0
                 (step-length E)))))
 
-((length Atom) expectations)
+;((length Atom) expectations)
 ;expectations
 ;nil
 ;(the (List Atom) expectations)
@@ -320,7 +320,7 @@
   (λ (E)
     (λ (e es append_es)
       (:: e append_es))))
-((step-append Atom) 'e nil expectations)
+;((step-append Atom) 'e nil expectations)
 
 (claim append
   (Π ((E U))
@@ -331,9 +331,75 @@
       (rec-List start
                 end
                 (step-append E)))))
-((append Atom) nil nil)
-((append Atom) (the (List Atom) (:: 'a nil)) (the (List Atom) (:: 'a nil)) )
+;((append Atom) nil nil)
+;((append Atom) (the (List Atom) (:: 'a nil)) (the (List Atom) (:: 'a nil)) )
+;(claim append-a)
+;(define append-a ((append Atom) (the (List Atom) (:: 'a nil))))
+
+; append* is append but without step-append
+(claim append*
+  (Π ((E U))
+    (-> (List E) (List E) (List E))))
+(define append*
+  (λ (E)
+    (λ (start end)
+      (rec-List start
+                end
+                (λ (e es acc) (:: e acc))))))
+
+(claim snoc
+  (Pi ((E U))
+    (-> (List E) E
+      (List E))))
+(define snoc
+  (λ (E)
+    (λ (start e)
+      (rec-List start
+                (:: e nil)
+                (step-append E)))))
+
+(claim snoc-Nat
+  (-> (List Nat) Nat
+    (List Nat)))
+(define snoc-Nat
+  (λ (start e)
+    (rec-List start
+              (:: e nil)
+              (step-append Nat))))
+(snoc-Nat (:: 99 (:: 42 nil)) 0)
+(snoc Atom expectations 'marryMotherInLaw)
+
+; snoc* uses append instead of rec-List
+(claim snoc*
+  (Pi ((E U))
+    (-> (List E) E
+      (List E))))
+(define snoc*
+  (lambda (E)
+    (lambda (start e)
+      (append E start (:: e nil)))))
+(snoc* Nat (:: 1 nil) 42)
+
+;(the (List Atom) (:: 'a nil))
+(claim x Nat)
+(define x 42)
+(claim a (List Atom))
+(define a (:: 'a nil))
+(claim ab (List Atom))
+(define ab (:: 'a (:: 'b nil)))
+(claim cd (List Atom))
+(define cd (:: 'c (:: 'd nil)))
+;(append Atom ab cd)
+;(append* Atom ab cd)
+;(append Atom ab (:: 'c nil))
+
+;(claim Pear U)
+;(define Pear (Pair Nat Nat))
+;(the Pear (Pair 0 0))
+;(the Pear (cons 3 4))
+
 ;(append Atom)
+
 
 ;ΠΠΠΠΠΠ
 ;ΣΣΣΣΣΣ
