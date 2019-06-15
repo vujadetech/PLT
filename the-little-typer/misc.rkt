@@ -48,8 +48,8 @@
 (define double
    (λ (j)
       (rec-Nat j
-	0
-          (λ (n-1 sum) (+ 2 sum)))))
+	             0
+              (λ (n-1 sum) (+ 2 sum)))))
 
 (claim double2 (-> Nat Nat))
 (define double2
@@ -559,6 +559,14 @@
 ;(step-peas 0)
 ;(step-peas 1)
 
+; step-peas*, step-peas without arrows/arrowless
+(claim step-peas*
+  (Π ((l-1 Nat)
+      (acc (mot-peas l-1)))
+    (mot-peas (add1 l-1))))
+(define step-peas*
+  (λ (l-1 acc) (vec:: 'peas acc)))
+
 (claim peas
   (Π ((n Nat)) (Vec Atom n)))
 (define peas
@@ -566,12 +574,82 @@
     (ind-Nat  n
               (λ (k) (Vec Atom k))
               vecnil
-              (λ (n-1 peas_n-1)
-                (vec:: 'pea peas_n-1)))))
+              step-peas*))) ; (λ (n-1 peas_n-1) (vec:: 'pea peas_n-1)))))
 (peas 3)
 ;(peas 0)
 
+(claim also-rec-Nat
+  (Π ((X U))
+    (-> Nat
+        X
+        (-> Nat X
+          X)
+        X)))
+(define also-rec-Nat
+  (λ (X)
+    (λ (target base step)
+      (ind-Nat target
+             (λ (k) X)
+             base
+             step))))
 
+; also-rec-Nat* = arrowless version
+(claim also-rec-Nat*
+  (Π ((X U)
+      (target Nat)
+      (base X)
+      (step (-> Nat X X)))
+    X))
+(define also-rec-Nat*
+  (λ (X)
+    (λ (target base step)
+      (ind-Nat target
+             (λ (k) X)
+             base
+             step))))
+
+(claim also-rec-Nat**
+ (Π ((X U)
+     (target Nat)
+     (base X)
+     (step (-> Nat X X)))
+   X))
+(define also-rec-Nat**
+  (λ (X)
+   (λ (target base step)
+     (ind-Nat target
+            (λ (k) X)
+            base
+            step))))
+
+(claim repeat-a
+  (Π ((n Nat))
+    (List Atom)))
+(define repeat-a
+   (λ (j)
+      (rec-Nat j
+	             (the (List Atom) nil)
+               (λ (n-1 acc) (:: 'a acc)))))
+;(repeat-a 3)
+
+; repeat-a* is also-rec-Nat version
+(claim repeat-a*
+  (Π ((n Nat))
+    (List Atom)))
+(define repeat-a*
+   (λ (j)
+      (also-rec-Nat (List Atom)
+                    j
+	                  nil ; Don't have to say (the (List Atom) nil) here since X=(List Atom) passed first
+                    (λ (n-1 acc) (:: 'a acc)))))
+
+ ; fac* = fac using also-rec-Nat*
+ (claim fac* (-> Nat Nat))
+ ;(define fac (λ (n) (rec-Nat n 1 (λ (n-1 acc) (* (add1 n-1) acc)))
+ (define fac*
+  (λ (n) (also-rec-Nat* Nat n 1
+      (λ (n-1 acc) (* (add1 n-1) acc)))))
+ (fac* 5)
 
 ;ΠΠΠΠΠΠ
 ;ΣΣΣΣΣΣ
