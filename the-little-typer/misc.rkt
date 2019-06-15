@@ -559,7 +559,6 @@
 ;(step-peas 0)
 ;(step-peas 1)
 
-;
 (claim peas
   (Π ((n Nat)) (Vec Atom n)))
 (define peas
@@ -570,7 +569,8 @@
               (λ (n-1 peas_n-1)
                 (vec:: 'pea peas_n-1)))))
 (peas 3)
-(peas 0)
+;(peas 0)
+
 
 
 ;ΠΠΠΠΠΠ

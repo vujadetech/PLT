@@ -85,3 +85,21 @@
 
 - __motive for ind-Nat__
 > ind-Nat needs one more argument than rec-Nat which states _how_ the types of both the base and the step's almost-answer depend on the target Nat, which is called the _motive_. It can be any (-> Nat U).
+
+- __The Law of ind-Nat__
+	- If target is a Nat, 
+	- mot is a __(-> Nat U)__,
+	- base is a __(mot 0)__, and
+	- step is a __(Π ((n-1 Nat)) (-> (mot n-1) (mot (add1 n-1))))__,
+	- then __(int-Nat target mot base step)__ is a __(mot target)__.
+	
+- __The first commandment of ind-Nat__
+	- The ind-Nat expression __(ind-Nat 0 mot base step)__ is the same __(mot zero)__ as base.
+	
+- __The second commandment of ind-Nat__
+	- The ind-Nat expression __(ind-Nat (add1 n) mot base step)__ and __(step n (ind-Nat n mot base step))__ are the same __(mot (add1 n))__.
+
+- __ind-Nat's Step Type__
+	- The step takes 2 args: a Nat n and an acc whose type is the motive applied to __n__. The step's answer type is the motive applied to __(add1 n)__. The step's type is: __(Π ((n Nat)) (-> (mot n) (mot (add1 n))))__.
+
+
