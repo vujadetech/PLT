@@ -496,9 +496,83 @@
 (define first-of-two
   (λ (E)
     (λ (v) (head v))))
-(first-of-two Nat vec-7-42)
+;(first-of-two Nat vec-7-42)
 ;(first-of-two Nat vec-42)
+
+(claim first
+  (Π ((E U) (l Nat))
+    (-> (Vec E (add1 l)) E)))
+(define first
+  (λ (E l)
+    (λ (es) (head es))))
+;(first Nat 0 vec-42)
+;(first Nat 1 vec-7-42)
+
+; alternate way of writing Pi w/o arrow as show on p128
+(claim first*
+  (Π ((E U)
+      (l Nat)
+      (es (Vec E (add1 l))))
+    E))
+(define first*
+  (λ (E l es) (head es)))
+;(first* Nat 0 vec-42)
+;(first* Nat 1 vec-7-42)
+
+(claim rest
+  (Π ((E U) (l Nat))
+    (-> (Vec E (add1 l)) (Vec E l))))
+(define rest
+  (λ (E l)
+    (λ (es) (tail es))))
+;(rest Nat 0 vec-42)
+;(rest Nat 1 vec-7-42)
+
+; arrow-less/Pi only version
+(claim rest*
+  (Π ((E U)
+      (l Nat)
+      (es (Vec E (add1 l))))
+    (Vec E l)))
+(define rest*
+  (λ (E l)
+    (λ (es) (tail es))))
+;(rest* Nat 0 vec-42)
+;(rest* Nat 1 vec-7-42)
+
+; ind-Nat
+(claim mot-peas (-> Nat U))
+(define mot-peas
+  (λ (k) (Vec Atom k)))
+
+(claim no-peas (-> Nat U))
+;(define no-peas (mot-peas 0))
+;(mot-peas 0)
+;(mot-peas 1)
+;(::vec 'peas )
+
+(claim step-peas
+  (Π ((l-1 Nat))
+      (-> (mot-peas l-1) (mot-peas (add1 l-1)))))
+(define step-peas
+  (λ (l-1 acc) (vec:: 'peas acc)))
+;(step-peas 0)
+;(step-peas 1)
+
+;
+(claim peas
+  (Π ((n Nat)) (Vec Atom n)))
+(define peas
+  (λ (n)
+    (ind-Nat  n
+              (λ (k) (Vec Atom k))
+              vecnil
+              (λ (n-1 peas_n-1)
+                (vec:: 'pea peas_n-1)))))
+(peas 3)
+(peas 0)
+
 
 ;ΠΠΠΠΠΠ
 ;ΣΣΣΣΣΣ
-;λλλλλλλ
+;λλλλλλ

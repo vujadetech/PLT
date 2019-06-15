@@ -76,3 +76,12 @@
 	
 - The law of __Π__
 > The expression __(Π ((y Y)) X)__ is a type when Y is a type, and X is a type if y is a Y.
+
+- __-> and Π__
+> The type __(-> Y X)__ is a shorter way of writing __(Π ((y Y)) X)__ when y is not used in X.
+
+- The final law of __λ__ 
+> If x is an X and y is a Y, then __(λ (y) x)__ is a __(Π ((y Y)) X)__.
+
+- __motive for ind-Nat__
+> ind-Nat needs one more argument than rec-Nat which states _how_ the types of both the base and the step's almost-answer depend on the target Nat, which is called the _motive_. It can be any (-> Nat U).
