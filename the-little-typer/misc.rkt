@@ -575,7 +575,7 @@
               (λ (k) (Vec Atom k))
               vecnil
               step-peas*))) ; (λ (n-1 peas_n-1) (vec:: 'pea peas_n-1)))))
-(peas 3)
+;(peas 3)
 ;(peas 0)
 
 (claim also-rec-Nat
@@ -642,14 +642,59 @@
                     j
 	                  nil ; Don't have to say (the (List Atom) nil) here since X=(List Atom) passed first
                     (λ (n-1 acc) (:: 'a acc)))))
+;(repeat-a* 2)
 
- ; fac* = fac using also-rec-Nat*
+; fac* = fac using also-rec-Nat*
  (claim fac* (-> Nat Nat))
- ;(define fac (λ (n) (rec-Nat n 1 (λ (n-1 acc) (* (add1 n-1) acc)))
  (define fac*
   (λ (n) (also-rec-Nat* Nat n 1
       (λ (n-1 acc) (* (add1 n-1) acc)))))
- (fac* 5)
+; (fac* 5)
+
+
+(claim base-last
+  (Π ((E U))
+    (-> (Vec E (add1 zero)) E)))
+(define base-last
+  (λ (E es) (head es)))
+;(base-last Nat vec-42)
+
+
+(claim mot-last (-> U Nat U))
+#;(define mot-last
+  (λ (E)
+    (λ (k) E)))
+
+(claim last
+  (Π ((E U)
+      (l Nat))
+      (-> (Vec E (add1 l))
+    E)))
+#;(define last
+  (λ (E l es)
+    (ind-Nat  l
+              (λ (k) E)
+              (base-last E (the (Vec E 1) es))
+              (λ (l-1 acc) (tail acc)))))
+
+; step-peas*, step-peas without arrows/arrowless
+#;(claim step-peas*
+  (Π ((l-1 Nat)
+      (acc (mot-peas l-1)))
+    (mot-peas (add1 l-1))))
+#;(define step-peas*
+  (λ (l-1 acc) (vec:: 'peas acc)))
+
+#;(define also-rec-Nat
+  (λ (X)
+    (λ (target base step)
+      (ind-Nat target
+             (λ (k) X)
+             base
+             step))))
+
+;(first Nat 0 vec-42)
+;(first Nat 1 vec-7-42)
 
 ;ΠΠΠΠΠΠ
 ;ΣΣΣΣΣΣ
