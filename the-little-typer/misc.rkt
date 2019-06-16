@@ -688,8 +688,44 @@
 (claim vec_carrot_celery (Vec Atom 2))
 (define vec_carrot_celery  (vec:: 'carrot (vec:: 'celery vecnil)))
 ;vec_carrot_celery
-(last Atom 1 vec_carrot_celery)
+;(last Atom 1 vec_carrot_celery)
 
+; Starting drop-last (base mot step)
+
+(claim base-drop-last
+  (Π ((E U))
+    (-> (Vec E (add1 zero)) (Vec E zero))))
+(define base-drop-last
+  (λ (E es) vecnil))
+;(base-drop-last Nat vec-42)
+
+(claim mot-drop-last (-> U Nat U))
+(define mot-drop-last
+  (λ (E k)
+    (-> (Vec E (add1 k)) (Vec E k))))
+;(mot-drop-last Atom 1)
+
+(claim step-drop-last
+  (Π ((E U)
+      (l-1 Nat))
+    (-> (mot-drop-last E l-1)
+      (mot-drop-last E (add1 l-1)))))
+(define step-drop-last
+  (λ (E l-1 drop-last_l-1 es)
+    (vec:: (head es) (drop-last_l-1 (tail es)))))
+
+(claim drop-last
+  (Π ((E U)
+      (l Nat))
+      (-> (Vec E (add1 l))
+    (Vec E l))))
+(define drop-last
+  (λ (E l)
+    (ind-Nat  l
+              (mot-drop-last E)
+              (base-drop-last E)
+              (step-drop-last E))))
+(drop-last Atom 1 vec_carrot_celery)
 
 ; step-peas*, step-peas without arrows/arrowless
 #;(claim step-peas*
