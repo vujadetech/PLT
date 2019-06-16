@@ -651,7 +651,6 @@
       (λ (n-1 acc) (* (add1 n-1) acc)))))
 ; (fac* 5)
 
-
 (claim base-last
   (Π ((E U))
     (-> (Vec E (add1 zero)) E)))
@@ -686,6 +685,11 @@
               (mot-last E)
               (base-last E)
               (step-last E))))
+(claim vec_carrot_celery (Vec Atom 2))
+(define vec_carrot_celery  (vec:: 'carrot (vec:: 'celery vecnil)))
+;vec_carrot_celery
+(last Atom 1 vec_carrot_celery)
+
 
 ; step-peas*, step-peas without arrows/arrowless
 #;(claim step-peas*
